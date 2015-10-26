@@ -1,0 +1,33 @@
+.car-specifications-box {
+
+	padding-top: 25px;
+
+	.form-group {
+
+		margin-bottom: 15px;
+
+	}
+
+	.form-group:after {
+
+		content: "";
+		display: block;
+		clear: both;
+
+	}
+
+	.form-label {
+
+		width: 25%;
+		float: left;
+
+	}
+
+	.form-controll {
+
+		float: left;
+
+	}
+
+}
+

@@ -1,0 +1,238 @@
+/*
+	Cars rental system
+ -----------------------------------------
+    main css file 
+*/
+
+.om-clearfix {
+
+	clear: both;
+}
+
+
+.om-car-holder {
+
+
+	/* Reset
+	-----------------------*/
+	div, p, ul li {
+
+		margin: 0;
+		padding: 0;
+	}
+
+	* {
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+	}
+	
+
+	/*
+	-----------------------*/
+
+	border: 1px solid #929292;
+	margin-bottom: 25px;
+
+
+
+
+	.om-car-body {
+
+		padding: 15px;
+	} 
+	
+
+
+	.om-car-footer {
+		border-top : 1px solid #E6E6E6;
+		background:#EFEFEF;
+		padding: 10px 15px;
+	}
+
+	
+
+
+	[class^='icon-'] {
+
+		display: inline-block;
+		width: 16px;
+		height: 16px;
+
+	}
+
+
+	.om-car-thumb-wrapper {
+
+		float: left;
+		width: 25%;
+
+	}
+
+	.om-car-content {
+
+		width: 75%;
+		float: right;
+		padding-left: 15px;
+	}
+
+	.om-car-title {
+
+		margin: 0;
+		margin-bottom: 15px;
+		text-transform: uppercase;
+	}
+
+	.om-car-specifications {
+		
+		margin-bottom: 10px;
+
+	}
+
+	.om-car-specifications-list {
+
+		padding: 0;
+		list-style: none;
+		margin-bottom: 5px;
+
+		li {
+
+			display: inline-block;
+			margin-right: 15px;
+			font-weight: bold;
+			color: #5c5d61;
+
+			span {
+				margin-right: 5px;
+			}
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+	}
+
+	.car-prices-list {
+
+		padding: 0;
+		margin: 0;
+		list-style : url('../images/calendar-16.png');
+
+		li {
+
+			list-style: url('../images/calendar-16.png');
+			display: inline-block;
+			font-size: 18px;
+			font-weight: 400;
+			padding: 5px 15px;
+			border-right: 1px solid #ccc;
+
+
+			&:last-child {
+				margin-right: 0;
+
+				border-right:none ;
+			}
+		}
+
+	}
+
+	.om-car-prices {
+		display: inline-block;
+	}
+
+	.om-car-buttons {
+		display: inline-block;
+		float: right;
+		text-align: right;
+	}
+
+
+}
+
+
+
+
+/* Form
+===============================================*/
+.car-specifications-box {
+
+	padding-top: 25px;
+
+	.form-group {
+
+		margin-bottom: 15px;
+
+	}
+
+	.form-group:after {
+
+		content: "";
+		display: block;
+		clear: both;
+
+	}
+
+	.form-label {
+
+		width: 25%;
+		float: left;
+
+	}
+
+	.form-controll {
+
+		float: left;
+
+	}
+
+}
+
+/* Icons
+===============================================*/
+
+.icon-persons {
+	
+	background: url('../images/persons-16.png');
+}
+
+.icon-bags {
+	background: url('../images/bags-16.png');
+}
+
+.icon-doors {
+
+	background: url('../images/door-16.png');
+
+}
+
+.icon-conditioner {
+
+	background: url('../images/conditioner-16.png');
+
+}
+
+.icon-fuel {
+
+	background: url('../images/fuel-16.png');
+
+}
+
+.icon-transmission {
+
+	background: url('../images/transmition-16.png');
+
+}
+
+/* buttons
+================================================*/
+
+.om-button {
+
+	display: inline-block;
+	text-decoration: none !important;
+	border: 1px solid;
+	padding: 5px 15px;
+
+}
