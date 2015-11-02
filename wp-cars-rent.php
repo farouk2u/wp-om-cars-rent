@@ -2,7 +2,7 @@
 
 /**
  * Plugin Name: Cars rental system
- * Plugin URI: http://www.farouk.pw/plugins/wordpress/cars-rent
+ * Plugin URI: https://github.com/farouk2u/wp-om-cars-rent
  * Description: Easy to use and custom Cars rental system.
  * Version:  0.9
  * Author: f@rouk
