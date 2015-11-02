@@ -21,11 +21,20 @@ require_once( WPCARSRENT_PLUGIN_DIR . '/includes/booking-post-type.php' );
 // ShortCodes
 require_once( WPCARSRENT_PLUGIN_DIR . '/includes/shortcodes.php' );
 
+// Admin panel
+if ( is_admin() ) {
+
+
+	require_once( WPCARSRENT_PLUGIN_DIR . '/includes/admin-panel.php' );
+ 
+}
+  
+
+
 
 // Register css & js files 
 function om_register_script() {
 
-    // wp_register_script( 'custom_jquery', plugins_url('/js/custom-jquery.js', __FILE__), array('jquery'), '2.5.1' );
     wp_register_style( 'om_cars_main', WPCARSRENT_PLUGIN_URL . 'assets/css/style.css', false, '1.0.0', 'all');
     wp_enqueue_style('om_cars_main');
 
@@ -47,9 +56,5 @@ function om_admin_styles(){
 
 add_action( 'admin_print_styles', 'om_admin_styles' );
 
-if ( is_admin() ) {
-  // require_once( WPCARSRENT__PLUGIN_DIR . 'class.akismet-admin.php' );
-  // add_action( 'init', array( 'Akismet_Admin', 'init' ) );
-}
-  
+
 

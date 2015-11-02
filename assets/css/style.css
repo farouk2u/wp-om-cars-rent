@@ -57,7 +57,7 @@
 .om-car-holder .om-car-specifications-list {
   padding: 0;
   list-style: none;
-  margin-bottom: 5px;
+  margin: 0 0 5px;
 }
 .om-car-holder .om-car-specifications-list li {
   display: inline-block;
@@ -81,7 +81,7 @@
   display: inline-block;
   font-size: 18px;
   font-weight: 400;
-  padding: 5px 15px;
+  padding: 5px 10px;
   border-right: 1px solid #ccc;
 }
 .om-car-holder .car-prices-list li:last-child {
