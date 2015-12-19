@@ -28,7 +28,7 @@ function create_booking_type() {
       'menu_icon'   => 'dashicons-calendar',
       'has_archive' => true,
       'hierarchical' => false,
-      'supports'      => array( 'title'),
+      'supports'      => array('') ,
       'rewrite' => array('slug' => 'Bookings'),
     )
   );
@@ -62,9 +62,37 @@ add_action( 'add_meta_boxes', 'om_add_booking_meta_boxes' );
 function om_booking_box_content( $post ) {
 
   wp_nonce_field( plugin_basename( __FILE__ ), 'om_booking_box_content_nonce' );
+  $car_stored_meta = get_post_meta( $post->ID );
+
   ?>
 
   <div class="car-specifications-box">
+
+
+    <div class="form-group">
+
+        <label class="form-label" for=""> Car</label>
+
+         <select name="booking-car" id="booking-car"> 
+            <?php 
+
+              $args = array('post_type' => 'om-car'); 
+              $cars = new WP_Query( $args );
+
+              while( $cars->have_posts() ) {
+
+                    $cars->the_post();
+
+                  ?>
+
+                  <option value="<?php  the_ID() ; ?>" <?php if ( isset ( $car_stored_meta['booking-car'] ) ) selected( $car_stored_meta['booking-car'][0], get_the_ID() ); ?> ><?php the_title(); ?></option> 
+
+            <?php } ?> 
+
+          </select>
+
+    </div >
+
 
     <div class="form-group">
         <label class="form-label" for=""> Full Name </label>
@@ -83,7 +111,7 @@ function om_booking_box_content( $post ) {
 
 
     <div class="form-group">
-        <label class="form-label" for=""> Date Start </label>
+        <label class="form-label" for=""> Date </label>
         <input type="date" id="booking-date" name="booking-date" value="<?php echo get_post_meta($post->ID, 'booking-date', true) ; ?>" />
     </div>
 
@@ -103,10 +131,12 @@ function om_booking_box_content( $post ) {
 <?php 
 }
   function om_booking_meta_box_save( $post_id ) {
+
+
     // Checks save status
     $is_autosave = wp_is_post_autosave( $post_id );
     $is_revision = wp_is_post_revision( $post_id );
-    $is_valid_nonce = ( isset( $_POST[ 'prfx_nonce' ] ) && wp_verify_nonce( $_POST[ 'prfx_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce = ( isset( $_POST[ 'booking_nonce' ] ) && wp_verify_nonce( $_POST[ 'booking_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
 
 
 
@@ -114,11 +144,16 @@ function om_booking_box_content( $post ) {
     // Exits script depending on save status
     if ( $is_autosave || $is_revision || !$is_valid_nonce ) {
 
-        return;
+  
+       return;
     }
 
 
+
     // Checks for input and sanitizes/saves if needed
+
+
+
     if( isset( $_POST[ 'booking-fullname' ] ) ) {
 
         update_post_meta( $post_id, 'booking-fullname', sanitize_text_field( $_POST[ 'booking-fullname' ] ) );
@@ -148,10 +183,33 @@ function om_booking_box_content( $post ) {
      if( isset( $_POST[ 'booking-message' ] ) ) {
 
         update_post_meta( $post_id, 'booking-message', sanitize_text_field( $_POST[ 'booking-message' ] ) );
+        
     }
+
+
+    if( isset( $_POST[ 'booking-car' ] ) ) {
+
+        update_post_meta( $post_id, 'booking-car', sanitize_text_field( $_POST[ 'booking-car' ] ) );
+        
+    }
+
 
   }
 
   
 
 add_action( 'save_post', 'om_booking_meta_box_save' );
+
+
+// add_filter('manage_booking_posts_columns', 'om_booking_table_head');
+
+// function om_booking_table_head( $defaults ) {
+
+//     die('om_booking_head');
+
+//     $defaults['event_date']  = 'Event Date';
+//     $defaults['ticket_status']    = 'Ticket Status';
+//     $defaults['venue']   = 'Venue';
+//     $defaults['author'] = 'Added By';
+//     return $defaults;
+// }

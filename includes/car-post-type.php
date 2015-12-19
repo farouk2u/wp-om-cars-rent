@@ -221,7 +221,7 @@ function car_meta_box_save( $post_id ) {
     // Checks save status
     $is_autosave = wp_is_post_autosave( $post_id );
     $is_revision = wp_is_post_revision( $post_id );
-    $is_valid_nonce = ( isset( $_POST[ 'prfx_nonce' ] ) && wp_verify_nonce( $_POST[ 'prfx_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
+    $is_valid_nonce = ( isset( $_POST[ 'car_nonce' ] ) && wp_verify_nonce( $_POST[ 'car_nonce' ], basename( __FILE__ ) ) ) ? 'true' : 'false';
 
 
 
@@ -268,7 +268,7 @@ function car_meta_box_save( $post_id ) {
 
 
     if( isset( $_POST[ 'air-conditioner' ] ) ) {
-        update_post_meta( $post_id, 'air-conditioner', $_POST[ 'air-conditioner' ] );
+        update_post_meta( $post_id, 'air-conditioner', sanitize_text_field($_POST[ 'air-conditioner' ]) );
     }
 
 

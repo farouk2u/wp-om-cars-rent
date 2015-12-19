@@ -5,6 +5,8 @@ add_shortcode('cars_list', 'cars_list');
 
 function cars_list() {
 
+	$currency = get_option('om_car_currency');
+	$booking_page_url = get_permalink( get_option('om_booking_page') ) ;
 
 	$args = array(
       'post_type' => 'om-car'
@@ -60,14 +62,14 @@ function cars_list() {
 
 				 <div class="om-car-prices">
 				 	<ul class="car-prices-list">
-				 		<li>1 Day : <b><?php echo $car_meta['car-price-1'][0] ; ?> €</b> </li>
-				 		<li>3 Days : <b><?php echo $car_meta['car-price-3'][0] ; ?> €</b> </li>
-				 		<li>7+ Days : <b><?php echo $car_meta['car-price-7'][0] ; ?> €</b> </li>
+				 		<li>1 Day : <b><?php echo $car_meta['car-price-1'][0] . " ". $currency ; ?> </b> </li>
+				 		<li>3 Days : <b><?php echo $car_meta['car-price-3'][0] . " ". $currency ; ?> </b> </li>
+				 		<li>7+ Days : <b><?php echo $car_meta['car-price-7'][0] . " ". $currency ; ?> </b> </li>
 				 	</ul>
 				 </div>
 			  	 <div class="om-car-buttons">
 
-				    	<a href="#?car=<?php the_ID() ; ?>" class="om-button"> Book now </a>
+				    	<a href="<?php echo $booking_page_url ; ?>?car=<?php the_ID() ; ?>" class="om-button"> Book now </a>
 				    	
 				   </div>
 			</div>
@@ -79,7 +81,9 @@ function cars_list() {
     }
 
     else {
+
       echo 'Oh ohm no cars!';
+
     }
 
 }
@@ -91,43 +95,121 @@ add_shortcode('cars_booking_form', 'booking_form');
 function booking_form() {
 
 
-	// 
+	// saving booking item and sending email
+	if (  $_POST['book'] && isset( $_POST['booking_nonce_field'] ) && wp_verify_nonce( $_POST['booking_nonce_field'], 'booking_nonce' ) ) {
 
-	if ( isset( $_POST['book'] ) ) {
- 
-	  
+
+		$post_information = array(
+
+	        'post_title' => wp_strip_all_tags( $_POST['booking-fullname'] ),
+	        'post_type' => 'om-booking',
+	        'post_status' => 'publish'
+	    );
+	
+
+	    $post_id = wp_insert_post($post_information);
+
+	    // if item is inseted correctely 
+		if($post_id)
+		{
+
+			// Update Custom Meta
+			update_post_meta( $post->ID, 'booking-car', sanitize_text_field( $_POST['booking-car'] ) );
+			update_post_meta( $post->ID, 'booking-fullname', sanitize_text_field( $_POST['booking-fullname'] ) );
+			update_post_meta( $post->ID, 'booking-email', sanitize_text_field( $_POST['booking-email'] ) );
+			update_post_meta( $post->ID, 'booking-phone', sanitize_text_field( $_POST['booking-phone'] ) );
+			update_post_meta( $post->ID, 'booking-date', sanitize_text_field( $_POST['booking-date'] ) );
+			update_post_meta( $post->ID, 'booking-days', sanitize_text_field( $_POST['booking-days'] ) );
+			update_post_meta( $post->ID, 'booking-message', sanitize_text_field( $_POST['booking-message'] ) );
+
+
+			// Sending email to notify the user
+			$to = $_POST['booking-email'] ;
+			$subject = 'Booking | ' . get_bloginfo('name') ;
+			$body = get_option('om_success_email');;
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+
+			wp_mail( $to, $subject, $body, $headers );
+
+
+
+			// Sending email to notify the admin
+			$to = get_option( 'admin_email' ) ;
+			$subject = 'New booked item | ' . get_bloginfo('name') ;
+			$body = 'A new booked item';
+			$headers = array('Content-Type: text/html; charset=UTF-8');
+
+			wp_mail( $to, $subject, $body, $headers );
+
+
+	
+			// wp_redirect( get_permalink( get_option('om_success_page') ) ); exit();
+
+
+			
+		}
+
+         
+
 	 
 	}
+
 ?>
 	<form action="" method="post">
 
 		 <div class="car-specifications-box">
 
 
+
+		 	 <div class="form-group">
+
+		        <label class="form-label" for=""> Car</label>
+
+		         <select name="booking-car" id="booking-car"> 
+		            <?php 
+
+		              $args = array('post_type' => 'om-car'); 
+		              $cars = new WP_Query( $args );
+
+		              while( $cars->have_posts() ) {
+
+		                    $cars->the_post();
+
+		                  ?>
+
+		                  <option value="<?php  the_ID() ; ?>" <?php if ( isset ( $car_stored_meta['booking-car'] ) ) selected( $car_stored_meta['booking-car'][0], get_the_ID() ); ?> ><?php the_title(); ?></option> 
+
+		            <?php } ?> 
+
+		          </select>
+
+		    </div >
+
+
 		      <div class="form-group">
-		          <label class="form-label" for=""> Full Name </label>
-		          <input type="text" id="booking-fullname" name="booking-fullname"  value="<?php // echo get_post_meta($post->ID, 'booking-fullname', true) ; ?>" />
+		          <label class="form-label" for=""> Full Name * </label>
+		          <input type="text" id="booking-fullname" name="booking-fullname"  required/>
 		      </div>
 
 		      <div class="form-group">
-		          <label class="form-label" for=""> E-mail </label>
-		          <input type="email" id="booking-email" name="booking-email" value="<?php // echo get_post_meta($post->ID, 'booking-email', true) ; ?>" />
+		          <label class="form-label" for=""> E-mail * </label>
+		          <input type="email" id="booking-email" name="booking-email" required />
 		      </div>
 
 		       <div class="form-group">
 		          <label class="form-label" for=""> Phone </label>
-		          <input type="text" id="booking-phone" name="booking-phone" value="<?php // echo get_post_meta($post->ID, 'booking-phone', true) ; ?>" />
+		          <input type="text" id="booking-phone" name="booking-phone"  />
 		      </div>
 
 
 		      <div class="form-group">
-		          <label class="form-label" for=""> Date Start </label>
-		          <input type="date" id="booking-date" name="booking-date" value="<?php // echo get_post_meta($post->ID, 'booking-date', true) ; ?>" />
+		          <label class="form-label" for=""> Date * </label>
+		          <input type="date" id="booking-date" name="booking-date"  required />
 		      </div>
 
 		      <div class="form-group">
-		          <label class="form-label" for=""> Number of days </label>
-		          <input type="number" id="booking-days" name="booking-days" value="<?php // echo get_post_meta($post->ID, 'booking-days', true) ; ?>" />
+		          <label class="form-label" for=""> Number of days * </label>
+		          <input type="number" id="booking-days" name="booking-days" required />
 		      </div>
 
 
@@ -137,7 +219,7 @@ function booking_form() {
 		      </div>
 
 		    	<div class="form-group">
-					 <?php wp_nonce_field( 'new-post' ); ?>
+					 <?php wp_nonce_field( 'booking_nonce', 'booking_nonce_field' ); ?>
 				</div>
 
 				<button type="submit" name="book" value="book"><?php _e('Book Now', 'om-car') ?></button>
