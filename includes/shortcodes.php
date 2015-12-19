@@ -82,7 +82,7 @@ function cars_list() {
 
     else {
 
-      echo 'Oh ohm no cars!';
+      echo 'Oh oh no cars!';
 
     }
 
@@ -126,7 +126,9 @@ function booking_form() {
 			// Sending email to notify the user
 			$to = $_POST['booking-email'] ;
 			$subject = 'Booking | ' . get_bloginfo('name') ;
+
 			$body = get_option('om_success_email');;
+
 			$headers = array('Content-Type: text/html; charset=UTF-8');
 
 			wp_mail( $to, $subject, $body, $headers );

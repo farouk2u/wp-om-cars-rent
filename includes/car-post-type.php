@@ -82,8 +82,9 @@ add_action( 'init', 'om_cars_features', 0 );
 
 
 
-// Car custom metaBoxes 
-
+/**
+ * Car custom metaBoxes
+ */
 function om_add_car_meta_boxes() {
 
 
@@ -214,8 +215,9 @@ function car_specifications_box_content( $post ) {
 
 }
 
-// Save car Metas 
-
+/**
+ * Save car Metas
+*/
 function car_meta_box_save( $post_id ) {
 
     // Checks save status
