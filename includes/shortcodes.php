@@ -96,7 +96,7 @@ function booking_form() {
 
 
 	// saving booking item and sending email
-	if (  $_POST['book'] && isset( $_POST['booking_nonce_field'] ) && wp_verify_nonce( $_POST['booking_nonce_field'], 'booking_nonce' ) ) {
+	if (  $_POST['book_front'] && isset( $_POST['booking_nonce_field'] ) && wp_verify_nonce( $_POST['booking_nonce_field'], 'booking_nonce' ) ) {
 
 
 		$post_information = array(
@@ -125,6 +125,7 @@ function booking_form() {
 
 			// Sending email to notify the user
 			$to = $_POST['booking-email'] ;
+
 			$subject = 'Booking | ' . get_bloginfo('name') ;
 
 			$body = get_option('om_success_email');;
@@ -145,7 +146,7 @@ function booking_form() {
 
 
 	
-			// wp_redirect( get_permalink( get_option('om_success_page') ) ); exit();
+			// wp_redirect( home_url('/thank-you/') ); exit; 
 
 
 			
@@ -224,7 +225,7 @@ function booking_form() {
 					 <?php wp_nonce_field( 'booking_nonce', 'booking_nonce_field' ); ?>
 				</div>
 
-				<button type="submit" name="book" value="book"><?php _e('Book Now', 'om-car') ?></button>
+				<button type="submit" name="book_front" value="book"><?php _e('Book Now', 'om-car') ?></button>
 
 		     
 

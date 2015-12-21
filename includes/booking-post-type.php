@@ -23,6 +23,7 @@ function create_booking_type() {
 		),
 
 		'public' => true,
+		'publicly_queryable' => false,
 		'menu_icon'   => 'dashicons-calendar',
 		'has_archive' => true,
 		'hierarchical' => false,
@@ -175,9 +176,21 @@ function om_booking_meta_box_save( $post_id ) {
 
 	}
 
+	if($_POST['book_front']) { 
+
+		
+
+		$sucess_page_id = get_option('om_success_page');
+
+		wp_redirect( get_permalink( $sucess_page_id ) );
+
+		exit();
+
+	}
+
 }
 
 
 
-	add_action( 'save_post', 'om_booking_meta_box_save' );
+add_action( 'save_post', 'om_booking_meta_box_save' );
 

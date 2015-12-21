@@ -52,3 +52,12 @@ function om_admin_styles() {
 
 add_action( 'admin_print_styles', 'om_admin_styles' );
 
+
+function app_output_buffer() {
+
+	ob_start();
+
+}
+
+add_action('init', 'app_output_buffer');
+
