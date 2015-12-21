@@ -13,3 +13,5 @@ SCREENSHOTS
 ![cars list](https://raw.githubusercontent.com/farouk2u/wp-om-cars-rent/master/screenshots/cars.jpeg)
 
 ![cars list](https://raw.githubusercontent.com/farouk2u/wp-om-cars-rent/master/screenshots/book-form.jpeg)
+
+NB : I developed this plugin just for fun ... so if you like to use it in a production environment use it on your own responsibility .
