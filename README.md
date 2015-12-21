@@ -2,7 +2,8 @@
 Easy to use and customise WordPress cars rental system plugin .
 
 ```
-NB : I developed this plugin just for fun ... so if you like to use it in a production environment use it on your own responsibility .
+NB : I developed this plugin just for fun ... 
+so if you like to use it in a production environment use it on your own responsibility .
 ```
 
 SHORTCODES
